@@ -65,3 +65,7 @@ crashlytics-build.properties
 Systemic-Crafting/Library/
 
 Systemic-Crafting/Temp/
+
+Systemic-Crafting/Logs/
+
+Systemic-Crafting/obj/
