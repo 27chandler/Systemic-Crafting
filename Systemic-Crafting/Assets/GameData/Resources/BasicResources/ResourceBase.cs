@@ -25,8 +25,8 @@ public class ResourceBase : ScriptableObject
             base.name = value;
         } }
     public Tile Tile { get { return tile; } set { tile = value; } }
-    public float Hardness { get { return hardness; } }
-    public float Flammability { get { return flammability; } }
-    public float Durability { get { return durability; } }
-    public float Conductivity { get { return conductivity; } }
+    public float Hardness { get { return hardness; } set { hardness = value; } }
+    public float Flammability { get { return flammability; } set { flammability = value; } }
+    public float Durability { get { return durability; } set { durability = value; } }
+    public float Conductivity { get { return conductivity; } set { conductivity = value; } }
 }

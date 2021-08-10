@@ -9,7 +9,8 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private TMP_Text text;
     [SerializeField] private Tilemap environment;
     [SerializeField] private List<ResourceBase> loadedResources = new List<ResourceBase>();
-    [SerializeField] private ResourceBase test;
+    [SerializeField] private ResourceBase primaryCrafting;
+    [SerializeField] private ResourceBase secondaryCrafting;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +27,28 @@ public class ResourceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check cell type
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int grid_position = environment.WorldToCell(mouse_pos);
 
-            ResourceBase found_resource = SearchResources(environment.GetTile(grid_position));
-            text.text = found_resource.Name;
+            primaryCrafting = SearchResources(environment.GetTile(grid_position));
+            text.text = primaryCrafting.Name;
+        }
 
-            CreateNewResource(test, found_resource);
+        // Debug Craft
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int grid_position = environment.WorldToCell(mouse_pos);
+
+            secondaryCrafting = SearchResources(environment.GetTile(grid_position));
+            text.text = secondaryCrafting.Name;
+        }
+        if (Input.GetMouseButtonDown(2))
+        {
+            CreateNewResource(primaryCrafting, secondaryCrafting);
         }
     }
 
@@ -63,12 +77,21 @@ public class ResourceManager : MonoBehaviour
         new_tile.sprite = resource_sprite;
 
         resource.Tile = new_tile;
-        resource.Name = "Test";
-
+        resource.Name = primary_resource.Name + secondary_resource.Name;
+        resource.Hardness = CalculateHardness(primary_resource.Hardness, secondary_resource.Hardness);
 
 
 
         loadedResources.Add(resource);
-        Debug.Log(loadedResources[loadedResources.Count-1].Name);
+
+        Debug.Log("------------------------------");
+        Debug.Log("Name: " + resource.Name);
+        Debug.Log("Hardness: " + resource.Hardness);
+        Debug.Log("------------------------------");
+    }
+
+    float CalculateHardness(float primary, float secondary)
+    {
+        return primary + secondary;
     }
 }
