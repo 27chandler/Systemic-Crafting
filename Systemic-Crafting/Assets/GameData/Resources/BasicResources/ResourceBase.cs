@@ -18,6 +18,12 @@ public class ResourceBase : ScriptableObject
     [SerializeField] private float durability;
     [SerializeField] private float conductivity;
 
+    private ResourceBase primaryIngredient;
+    private ResourceBase secondaryIngredient;
+
+    private Dictionary<string, float> composition = new Dictionary<string, float>();
+    private float compositionCheckCode;
+
     //
     public string Name { get { return name; }
         set
@@ -29,4 +35,78 @@ public class ResourceBase : ScriptableObject
     public float Flammability { get { return flammability; } set { flammability = value; } }
     public float Durability { get { return durability; } set { durability = value; } }
     public float Conductivity { get { return conductivity; } set { conductivity = value; } }
+    public ResourceBase PrimaryIngredient { get { return primaryIngredient; } set { primaryIngredient = value; } }
+    public ResourceBase SecondaryIngredient { get { return secondaryIngredient; } set { secondaryIngredient = value; } }
+    public float CheckCode { get { return compositionCheckCode; } }
+
+    public void SetIntialIngredient(string name)
+    {
+        composition.Clear();
+        composition.Add(name, 1.0f);
+        GenerateCheckCode();
+    }
+
+    public void SetIngredients(Dictionary<string,float> ingredients)
+    {
+        composition.Clear();
+        foreach (var ingredient in ingredients)
+        {
+            composition.Add(ingredient.Key, ingredient.Value);
+        }
+        GenerateCheckCode();
+    }
+
+    public Dictionary<string,float> GetIngredients()
+    {
+        return composition;
+    }
+
+    public void MergeIngredients(Dictionary<string, float> ingredients)
+    {
+        Dictionary<string, float> working_composition = new Dictionary<string, float>();
+
+        foreach (var ingredient in composition)
+        {
+            working_composition.Add(ingredient.Key, ingredient.Value * 0.5f);
+        }
+
+        foreach (var ingredient in ingredients)
+        {
+            if (working_composition.ContainsKey(ingredient.Key))
+            {
+                working_composition[ingredient.Key] += (ingredient.Value * 0.5f);
+            }
+            else
+            {
+                working_composition.Add(ingredient.Key,ingredient.Value * 0.5f);
+            }
+        }
+
+        composition.Clear();
+
+        foreach (var ingredient in working_composition)
+        {
+            composition.Add(ingredient.Key, ingredient.Value);
+        }
+        GenerateCheckCode();
+    }
+
+    private void GenerateCheckCode()
+    {
+        compositionCheckCode = 1.0f;
+
+        foreach (var ingredient in composition)
+        {
+            compositionCheckCode *= (ingredient.Value + 100.0f) * ingredient.Key.GetHashCode();
+        }
+    }
+
+    // For debug purposes, prints composition into console
+    public void DisplayComposition()
+    {
+        foreach (var ingredient in composition)
+        {
+            Debug.Log(ingredient.Key + ":" + ingredient.Value);
+        }
+    }
 }

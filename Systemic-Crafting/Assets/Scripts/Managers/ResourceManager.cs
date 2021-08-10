@@ -20,6 +20,7 @@ public class ResourceManager : MonoBehaviour
 
         foreach (var resource in loadedResources)
         {
+            resource.SetIntialIngredient(resource.Name);
             Debug.Log(resource);
         }
     }
@@ -35,6 +36,8 @@ public class ResourceManager : MonoBehaviour
 
             primaryCrafting = SearchResources(environment.GetTile(grid_position));
             text.text = primaryCrafting.Name;
+
+            primaryCrafting.DisplayComposition();
         }
 
         // Debug Craft
@@ -48,7 +51,12 @@ public class ResourceManager : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(2))
         {
-            CreateNewResource(primaryCrafting, secondaryCrafting);
+            ResourceBase new_resource = CreateNewResource(primaryCrafting, secondaryCrafting);
+
+            // Place new resource at mouse position
+            Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int grid_position = environment.WorldToCell(mouse_pos);
+            environment.SetTile(grid_position, new_resource.Tile);
         }
     }
 
@@ -64,8 +72,15 @@ public class ResourceManager : MonoBehaviour
         return null;
     }
 
-    void CreateNewResource(ResourceBase primary_resource, ResourceBase secondary_resource)
+    ResourceBase CreateNewResource(ResourceBase primary_resource, ResourceBase secondary_resource)
     {
+        ResourceBase result;
+        // Checks if the new resource already exists within the list of resources available
+        //if (CheckExists(primary_resource,secondary_resource, out result))
+        //{
+        //    return result;
+        //}
+
         ResourceBase resource = (ResourceBase)ScriptableObject.CreateInstance(typeof(ResourceBase));
 
         Sprite primary_sprite = primary_resource.Tile.sprite;
@@ -79,8 +94,22 @@ public class ResourceManager : MonoBehaviour
         resource.Tile = new_tile;
         resource.Name = primary_resource.Name + secondary_resource.Name;
         resource.Hardness = CalculateHardness(primary_resource.Hardness, secondary_resource.Hardness);
+        resource.Flammability = CalculateFlammability(primary_resource.Flammability, secondary_resource.Flammability);
+        resource.Durability = CalculateFlammability(primary_resource.Durability, secondary_resource.Durability);
+        resource.Conductivity = CalculateFlammability(primary_resource.Conductivity, secondary_resource.Conductivity);
 
 
+        resource.PrimaryIngredient = primary_resource;
+        resource.SecondaryIngredient = secondary_resource;
+
+        resource.SetIngredients(primary_resource.GetIngredients());
+        resource.MergeIngredients(secondary_resource.GetIngredients());
+
+        if (CheckExists(resource.CheckCode, out result))
+        {
+            Debug.Log("Check code already exists: " + resource.CheckCode);
+            return result;
+        }
 
         loadedResources.Add(resource);
 
@@ -88,10 +117,60 @@ public class ResourceManager : MonoBehaviour
         Debug.Log("Name: " + resource.Name);
         Debug.Log("Hardness: " + resource.Hardness);
         Debug.Log("------------------------------");
+
+        return resource;
     }
 
+    private bool CheckExists(ResourceBase primary_resource, ResourceBase secondary_resource, out ResourceBase output)
+    {
+        foreach (var resource in loadedResources)
+        {
+            if (((primary_resource == resource.PrimaryIngredient)
+                && (secondary_resource == resource.SecondaryIngredient))
+                ||
+                ((secondary_resource == resource.PrimaryIngredient)
+                && (primary_resource == resource.SecondaryIngredient)))
+            {
+                output = resource;
+                return true;
+            }
+        }
+        output = null;
+        return false;
+    }
+
+    private bool CheckExists(float check_code, out ResourceBase output)
+    {
+        foreach (var resource in loadedResources)
+        {
+            if (check_code == resource.CheckCode)
+            {
+                output = resource;
+                return true;
+            }
+        }
+        output = null;
+        return false;
+    }
+
+    // TODO: Calculation functions should go in their own class
     float CalculateHardness(float primary, float secondary)
     {
         return primary + secondary;
+    }
+
+    float CalculateFlammability(float primary, float secondary)
+    {
+        return (primary + secondary) / 2.0f;
+    }
+
+    float CalculateDurability(float primary, float secondary)
+    {
+        return primary + secondary + 1;
+    }
+
+    float CalculateConductivity(float primary, float secondary)
+    {
+        return (primary + secondary) / 2.0f;
     }
 }
