@@ -37,7 +37,7 @@ public class TextureMerge : MonoBehaviour
 
     // Credit to http://girlscancode.eu/unity3d-merge-textures-tutorial/ for this...
     // (Slightly modified by me to support textures within a spritesheet)
-    private Texture2D MergeTextures(Texture2D texture_1, Rect rect_1, Texture2D texture_2, Rect rect_2)
+    static public Texture2D MergeTextures(Texture2D texture_1, Rect rect_1, Texture2D texture_2, Rect rect_2, float alpha = 1.0f)
     {
         Texture2D merge_result = new Texture2D((int)rect_1.width, (int)rect_1.height);
         merge_result.filterMode = FilterMode.Point;
@@ -48,7 +48,7 @@ public class TextureMerge : MonoBehaviour
             {
                 Color tex1_color = texture_1.GetPixel((int)rect_1.x + i, (int)rect_1.y + j);
                 Color tex2_color = texture_2.GetPixel((int)rect_2.x + i, (int)rect_2.y + j);
-                Color merged_color = Color.Lerp(tex1_color, tex2_color, tex2_color.a / 1);
+                Color merged_color = Color.Lerp(tex1_color, tex2_color, (tex2_color.a * alpha) / 1);
 
                 merge_result.SetPixel(i, j, merged_color);
 

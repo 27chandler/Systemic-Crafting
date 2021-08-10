@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Dirt
   m_EditorClassIdentifier: 
   name: Dirt
+  tile: {fileID: 11400000, guid: c79fd14391b34d44b96a6f7fd55c7c8b, type: 2}
   hardness: 1
   flammability: 0
   durability: 0.5
