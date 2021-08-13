@@ -110,6 +110,10 @@ public class ResourceManager : MonoBehaviour
             Debug.Log("Check code already exists: " + resource.CheckCode);
             return result;
         }
+        else
+        {
+            Debug.Log("New Check Code: " + resource.CheckCode);
+        }
 
         loadedResources.Add(resource);
 

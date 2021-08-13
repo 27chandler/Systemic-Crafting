@@ -97,7 +97,7 @@ public class ResourceBase : ScriptableObject
 
         foreach (var ingredient in composition)
         {
-            compositionCheckCode *= (ingredient.Value + 100.0f) * ingredient.Key.GetHashCode();
+            compositionCheckCode *= (ingredient.Value + 100.0f) * GenerateStringHash(ingredient.Key);
         }
     }
 
@@ -108,5 +108,15 @@ public class ResourceBase : ScriptableObject
         {
             Debug.Log(ingredient.Key + ":" + ingredient.Value);
         }
+    }
+
+    public float GenerateStringHash(string text)
+    {
+        float hash = 0.0f;
+        for (int i = 0; i < text.Length; i++)
+        {
+            hash += ((float)text[i] * (i + 1.1f));
+        }
+        return hash;
     }
 }
