@@ -12,6 +12,8 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private ResourceBase primaryCrafting;
     [SerializeField] private ResourceBase secondaryCrafting;
 
+    public List<ResourceBase> LoadedResources { get { return loadedResources; }}
+
     // Start is called before the first frame update
     void Start()
     {
@@ -123,24 +125,6 @@ public class ResourceManager : MonoBehaviour
         Debug.Log("------------------------------");
 
         return resource;
-    }
-
-    private bool CheckExists(ResourceBase primary_resource, ResourceBase secondary_resource, out ResourceBase output)
-    {
-        foreach (var resource in loadedResources)
-        {
-            if (((primary_resource == resource.PrimaryIngredient)
-                && (secondary_resource == resource.SecondaryIngredient))
-                ||
-                ((secondary_resource == resource.PrimaryIngredient)
-                && (primary_resource == resource.SecondaryIngredient)))
-            {
-                output = resource;
-                return true;
-            }
-        }
-        output = null;
-        return false;
     }
 
     private bool CheckExists(float check_code, out ResourceBase output)
