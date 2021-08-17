@@ -74,7 +74,7 @@ public class ResourceManager : MonoBehaviour
         return null;
     }
 
-    ResourceBase CreateNewResource(ResourceBase primary_resource, ResourceBase secondary_resource)
+    public ResourceBase CreateNewResource(ResourceBase primary_resource, ResourceBase secondary_resource)
     {
         ResourceBase result;
         // Checks if the new resource already exists within the list of resources available
