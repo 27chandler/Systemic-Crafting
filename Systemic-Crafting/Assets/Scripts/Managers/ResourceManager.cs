@@ -62,7 +62,7 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    private ResourceBase SearchResources(TileBase search_tile)
+    public ResourceBase SearchResources(TileBase search_tile)
     {
         foreach (var resource in loadedResources)
         {
@@ -72,6 +72,23 @@ public class ResourceManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public bool CheckResourceExists(string name)
+    {
+        foreach (var resource in loadedResources)
+        {
+            if (resource.Name == name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ResourceBase GetResourceAtPos(Vector3Int position)
+    {
+        return SearchResources(environment.GetTile(position));
     }
 
     public ResourceBase CreateNewResource(ResourceBase primary_resource, ResourceBase secondary_resource)

@@ -16,7 +16,6 @@ public class CraftingCounter : MonoBehaviour
     {
         amount = Mathf.Clamp(amount + value, minAmount, maxAmount);
         display.text = amount.ToString();
-
     }
 
     public void DecreaseAmount(int value)
