@@ -5,6 +5,8 @@ using TMPro;
 
 public class CraftingCounter : MonoBehaviour
 {
+    [SerializeField] private ResourceManager resourceManager;
+
     [SerializeField] private TMP_Text display;
     [SerializeField] private int minAmount;
     [SerializeField] private int maxAmount;

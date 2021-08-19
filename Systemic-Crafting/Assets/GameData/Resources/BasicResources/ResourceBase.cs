@@ -18,9 +18,6 @@ public class ResourceBase : ScriptableObject
     [SerializeField] private float durability;
     [SerializeField] private float conductivity;
 
-    private ResourceBase primaryIngredient;
-    private ResourceBase secondaryIngredient;
-
     private Dictionary<string, float> composition = new Dictionary<string, float>();
     private float compositionCheckCode;
 
@@ -35,8 +32,6 @@ public class ResourceBase : ScriptableObject
     public float Flammability { get { return flammability; } set { flammability = value; } }
     public float Durability { get { return durability; } set { durability = value; } }
     public float Conductivity { get { return conductivity; } set { conductivity = value; } }
-    public ResourceBase PrimaryIngredient { get { return primaryIngredient; } set { primaryIngredient = value; } }
-    public ResourceBase SecondaryIngredient { get { return secondaryIngredient; } set { secondaryIngredient = value; } }
     public float CheckCode { get { return compositionCheckCode; } }
 
     public void SetIntialIngredient(string name)

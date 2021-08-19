@@ -23,7 +23,6 @@ public class ResourceManager : MonoBehaviour
         foreach (var resource in loadedResources)
         {
             resource.SetIntialIngredient(resource.Name);
-            Debug.Log(resource);
         }
     }
 
@@ -117,16 +116,11 @@ public class ResourceManager : MonoBehaviour
         resource.Durability = CalculateFlammability(primary_resource.Durability, secondary_resource.Durability);
         resource.Conductivity = CalculateFlammability(primary_resource.Conductivity, secondary_resource.Conductivity);
 
-
-        resource.PrimaryIngredient = primary_resource;
-        resource.SecondaryIngredient = secondary_resource;
-
         resource.SetIngredients(primary_resource.GetIngredients());
         resource.MergeIngredients(secondary_resource.GetIngredients());
 
         if (CheckExists(resource.CheckCode, out result))
         {
-            Debug.Log("Check code already exists: " + resource.CheckCode);
             return result;
         }
         else
@@ -135,11 +129,6 @@ public class ResourceManager : MonoBehaviour
         }
 
         loadedResources.Add(resource);
-
-        Debug.Log("------------------------------");
-        Debug.Log("Name: " + resource.Name);
-        Debug.Log("Hardness: " + resource.Hardness);
-        Debug.Log("------------------------------");
 
         return resource;
     }

@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
             {
                 GameObject new_slot_display = GameObject.Instantiate(inventoryDisplayPrefab);
                 new_slot_display.transform.parent = inventoryTab;
-                InventoryDisplay display = new_slot_display.GetComponent<InventoryDisplay>();
+                InventoryDisplay display = new_slot_display.GetComponentInChildren<InventoryDisplay>();
 
                 InventorySlot new_slot = new InventorySlot();
                 new_slot.name = resource.Name;
