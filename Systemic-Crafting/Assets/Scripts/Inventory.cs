@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Inventory : MonoBehaviour
     [Space]
     [SerializeField] private GameObject inventoryDisplayPrefab;
     [SerializeField] private List<InventorySlot> resources = new List<InventorySlot>();
+    [Space]
+    [SerializeField] private CraftingCounter craftingSlotA;
+    [SerializeField] private CraftingCounter craftingSlotB;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +53,16 @@ public class Inventory : MonoBehaviour
 
                 new_slot.display.SetName(new_slot.name);
                 new_slot.display.SetQuantity(new_slot.quantity);
+
+                // UI Buttons
+                UIButton button = new_slot_display.GetComponentInChildren<UIButton>();
+
+                SetCraftingSlot[] crafting_setters = new_slot_display.GetComponentsInChildren<SetCraftingSlot>();
+
+                crafting_setters[0].ResourceName = new_slot.name;
+                crafting_setters[0].CraftingSlot = craftingSlotA;
+                crafting_setters[1].ResourceName = new_slot.name;
+                crafting_setters[1].CraftingSlot = craftingSlotB;
 
                 resources.Add(new_slot);
             }

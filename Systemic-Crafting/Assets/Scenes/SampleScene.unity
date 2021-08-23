@@ -499,6 +499,7 @@ MonoBehaviour:
   display: {fileID: 1395298033}
   minAmount: 0
   maxAmount: 99
+  resourceName: 
 --- !u!1 &594320744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1731,6 +1732,7 @@ MonoBehaviour:
   display: {fileID: 1906655753}
   minAmount: 0
   maxAmount: 99
+  resourceName: 
 --- !u!1 &1665692092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2185,6 +2187,8 @@ MonoBehaviour:
   inventoryTab: {fileID: 715264143}
   inventoryDisplayPrefab: {fileID: 2531158833241545010, guid: 66f69f88dc860d34490cc7b09f688e3b, type: 3}
   resources: []
+  craftingSlotA: {fileID: 1565985691}
+  craftingSlotB: {fileID: 537688140}
 --- !u!1 &1901707814
 GameObject:
   m_ObjectHideFlags: 0
@@ -2512,7 +2516,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1009468003}
   m_HandleRect: {fileID: 1009468002}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
