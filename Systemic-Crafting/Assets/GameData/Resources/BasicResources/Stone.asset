@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Stone
   tile: {fileID: 11400000, guid: 8c54916a5f2229a44b0d8e472d0ffcfc, type: 2}
-  hardness: 5
+  hardness: 1
   flammability: 0
   durability: 10
   conductivity: 0

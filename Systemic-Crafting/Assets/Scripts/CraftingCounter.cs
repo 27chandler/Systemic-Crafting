@@ -5,19 +5,23 @@ using TMPro;
 
 public class CraftingCounter : MonoBehaviour
 {
-    [SerializeField] private ResourceManager resourceManager;
-
     [SerializeField] private TMP_Text display;
+    [SerializeField] private TMP_Text resourceNameDisplay;
     [SerializeField] private int minAmount;
     [SerializeField] private int maxAmount;
     [SerializeField] private string resourceName;
     private int amount = 0;
 
     public int Amount { get { return amount; } }
-    public string ResourceName { get { return resourceName; } set { resourceName = value; } }
+    public int Min { set { minAmount = value; } }
+    public int Max { set { maxAmount = value; } }
+    public string ResourceName {
+        get { return resourceName; } set { resourceNameDisplay.text = resourceName = value; } }
 
     public void IncreaseAmount(int value)
     {
+        maxAmount = (int)Inventory.current.FindQuantity(resourceName);
+
         amount = Mathf.Clamp(amount + value, minAmount, maxAmount);
         display.text = amount.ToString();
     }

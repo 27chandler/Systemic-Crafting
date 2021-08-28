@@ -14,10 +14,12 @@ public class Inventory : MonoBehaviour
     [SerializeField] private CraftingCounter craftingSlotA;
     [SerializeField] private CraftingCounter craftingSlotB;
 
+    public static Inventory current;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        current = this;
     }
 
     // Update is called once per frame
@@ -53,6 +55,7 @@ public class Inventory : MonoBehaviour
 
                 new_slot.display.SetName(new_slot.name);
                 new_slot.display.SetQuantity(new_slot.quantity);
+                new_slot.display.Inv = this;
 
                 // UI Buttons
                 UIButton button = new_slot_display.GetComponentInChildren<UIButton>();
@@ -69,8 +72,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddQuantity(string name, float amount)
+    public void AddQuantity(string name, float amount, bool isDelayed = false)
     {
+        if (isDelayed)
+        {
+            StartCoroutine(DelayedAddQuantity(name, amount));
+            return;
+        }
+
         int counter = 0;
         foreach (var resource in resources)
         {
@@ -84,6 +93,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private IEnumerator DelayedAddQuantity(string name, float amount)
+    {
+        yield return null;
+        AddQuantity(name, amount);
+        yield return null;
+    }
+
     public bool CheckSlotExists(string name)
     {
         foreach (var resource in resources)
@@ -94,6 +110,18 @@ public class Inventory : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public float FindQuantity(string name)
+    {
+        foreach (var resource in resources)
+        {
+            if (resource.name == name)
+            {
+                return resource.quantity;
+            }
+        }
+        return 0.0f;
     }
 }
 

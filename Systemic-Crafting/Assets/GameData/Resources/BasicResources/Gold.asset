@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Gold
   tile: {fileID: 11400000, guid: 1e209e82ec59600449d6aba21f02e61c, type: 2}
-  hardness: 2
+  hardness: 0.5
   flammability: 0
   durability: 4
   conductivity: 100

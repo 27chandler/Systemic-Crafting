@@ -12,11 +12,15 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private ResourceBase primaryCrafting;
     [SerializeField] private ResourceBase secondaryCrafting;
 
+    public static ResourceManager current;
+
     public List<ResourceBase> LoadedResources { get { return loadedResources; }}
 
     // Start is called before the first frame update
     void Start()
     {
+        current = this;
+
         ResourceBase[] resources = Resources.LoadAll<ResourceBase>("BasicResources");
         loadedResources.AddRange(resources);
 
@@ -27,45 +31,57 @@ public class ResourceManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // Check cell type
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int grid_position = environment.WorldToCell(mouse_pos);
+    //void Update()
+    //{
+    //    // Check cell type
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        Vector3Int grid_position = environment.WorldToCell(mouse_pos);
 
-            primaryCrafting = SearchResources(environment.GetTile(grid_position));
-            text.text = primaryCrafting.Name;
+    //        primaryCrafting = SearchResources(environment.GetTile(grid_position));
+    //        text.text = primaryCrafting.Name;
 
-            primaryCrafting.DisplayComposition();
-        }
+    //        primaryCrafting.DisplayComposition();
+    //    }
 
-        // Debug Craft
-        if (Input.GetMouseButtonDown(1))
-        {
-            Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int grid_position = environment.WorldToCell(mouse_pos);
+    //    // Debug Craft
+    //    if (Input.GetMouseButtonDown(1))
+    //    {
+    //        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        Vector3Int grid_position = environment.WorldToCell(mouse_pos);
 
-            secondaryCrafting = SearchResources(environment.GetTile(grid_position));
-            text.text = secondaryCrafting.Name;
-        }
-        if (Input.GetMouseButtonDown(2))
-        {
-            ResourceBase new_resource = CreateNewResource(primaryCrafting, secondaryCrafting);
+    //        secondaryCrafting = SearchResources(environment.GetTile(grid_position));
+    //        text.text = secondaryCrafting.Name;
+    //    }
+    //    if (Input.GetMouseButtonDown(2))
+    //    {
+    //        ResourceBase new_resource = CreateNewResource(primaryCrafting, secondaryCrafting);
 
-            // Place new resource at mouse position
-            Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int grid_position = environment.WorldToCell(mouse_pos);
-            environment.SetTile(grid_position, new_resource.Tile);
-        }
-    }
+    //        // Place new resource at mouse position
+    //        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //        Vector3Int grid_position = environment.WorldToCell(mouse_pos);
+    //        environment.SetTile(grid_position, new_resource.Tile);
+    //    }
+    //}
 
     public ResourceBase SearchResources(TileBase search_tile)
     {
         foreach (var resource in loadedResources)
         {
             if (resource.Tile == search_tile)
+            {
+                return resource;
+            }
+        }
+        return null;
+    }
+
+    public ResourceBase SearchResources(string name)
+    {
+        foreach (var resource in loadedResources)
+        {
+            if (resource.Name == name)
             {
                 return resource;
             }

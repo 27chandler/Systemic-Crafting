@@ -7,8 +7,11 @@ public class InventoryDisplay : MonoBehaviour
 {
     [SerializeField] private TMP_Text itemName;
     [SerializeField] private TMP_Text itemQuantity;
+    private Inventory inv;
     private float amount;
     private string resourceName;
+
+    public Inventory Inv { get { return inv; } set { inv = value; } }
 
     public void SetName(string name)
     {
