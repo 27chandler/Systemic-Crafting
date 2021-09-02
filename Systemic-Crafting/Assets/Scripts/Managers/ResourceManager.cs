@@ -30,41 +30,6 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    // Check cell type
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        Vector3Int grid_position = environment.WorldToCell(mouse_pos);
-
-    //        primaryCrafting = SearchResources(environment.GetTile(grid_position));
-    //        text.text = primaryCrafting.Name;
-
-    //        primaryCrafting.DisplayComposition();
-    //    }
-
-    //    // Debug Craft
-    //    if (Input.GetMouseButtonDown(1))
-    //    {
-    //        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        Vector3Int grid_position = environment.WorldToCell(mouse_pos);
-
-    //        secondaryCrafting = SearchResources(environment.GetTile(grid_position));
-    //        text.text = secondaryCrafting.Name;
-    //    }
-    //    if (Input.GetMouseButtonDown(2))
-    //    {
-    //        ResourceBase new_resource = CreateNewResource(primaryCrafting, secondaryCrafting);
-
-    //        // Place new resource at mouse position
-    //        Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        Vector3Int grid_position = environment.WorldToCell(mouse_pos);
-    //        environment.SetTile(grid_position, new_resource.Tile);
-    //    }
-    //}
-
     public ResourceBase SearchResources(TileBase search_tile)
     {
         foreach (var resource in loadedResources)
@@ -84,6 +49,19 @@ public class ResourceManager : MonoBehaviour
             if (resource.Name == name)
             {
                 return resource;
+            }
+        }
+        return null;
+    }
+
+    public Sprite GrabResourceSprite(string name)
+    {
+        foreach (var resource in loadedResources)
+        {
+            if (resource.Name == name)
+            {
+                Sprite primary_sprite = resource.Tile.sprite;
+                return primary_sprite;
             }
         }
         return null;

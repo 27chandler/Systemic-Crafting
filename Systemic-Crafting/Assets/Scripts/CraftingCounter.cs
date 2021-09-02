@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class CraftingCounter : MonoBehaviour
 {
     [SerializeField] private TMP_Text display;
+    [SerializeField] private Image sprite;
     [SerializeField] private TMP_Text resourceNameDisplay;
     [SerializeField] private int minAmount;
     [SerializeField] private int maxAmount;
@@ -16,7 +18,12 @@ public class CraftingCounter : MonoBehaviour
     public int Min { set { minAmount = value; } }
     public int Max { set { maxAmount = value; } }
     public string ResourceName {
-        get { return resourceName; } set { resourceNameDisplay.text = resourceName = value; } }
+        get { return resourceName; }
+        set 
+        { 
+            resourceNameDisplay.text = resourceName = value;
+            sprite.sprite = ResourceManager.current.GrabResourceSprite(resourceName);
+        } }
 
     public void IncreaseAmount(int value)
     {
