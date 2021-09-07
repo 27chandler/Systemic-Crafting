@@ -99,16 +99,16 @@ public class ResourceManager : MonoBehaviour
         Sprite secondary_sprite = secondary_resource.Tile.sprite;
 
         // Sprite creation
-        Sprite resource_sprite = Sprite.Create(TextureMerge.MergeTextures(primary_sprite.texture, primary_sprite.rect, secondary_sprite.texture, secondary_sprite.rect,0.5f), new Rect(0, 0, 32, 32), new Vector2(0.5f, 0.5f), 32.0f);
+        Sprite resource_sprite = MergeSprites(primary_sprite,secondary_sprite);
         Tile new_tile = ScriptableObject.CreateInstance<Tile>();
         new_tile.sprite = resource_sprite;
 
         resource.Tile = new_tile;
-        resource.Name = primary_resource.Name + secondary_resource.Name;
+        resource.Name = CalculateName(primary_resource.Name,secondary_resource.Name);
         resource.Hardness = CalculateHardness(primary_resource.Hardness, secondary_resource.Hardness);
         resource.Flammability = CalculateFlammability(primary_resource.Flammability, secondary_resource.Flammability);
-        resource.Durability = CalculateFlammability(primary_resource.Durability, secondary_resource.Durability);
-        resource.Conductivity = CalculateFlammability(primary_resource.Conductivity, secondary_resource.Conductivity);
+        resource.Durability = CalculateDurability(primary_resource.Durability, secondary_resource.Durability);
+        resource.Conductivity = CalculateConductivity(primary_resource.Conductivity, secondary_resource.Conductivity);
 
         resource.SetIngredients(primary_resource.GetIngredients());
         resource.MergeIngredients(secondary_resource.GetIngredients());
@@ -127,6 +127,11 @@ public class ResourceManager : MonoBehaviour
         return resource;
     }
 
+    public Sprite MergeSprites(Sprite primary, Sprite secondary)
+    {
+        return Sprite.Create(TextureMerge.MergeTextures(primary.texture, primary.rect, secondary.texture, secondary.rect, 0.5f), new Rect(0, 0, 32, 32), new Vector2(0.5f, 0.5f), 32.0f);
+    }
+
     private bool CheckExists(float check_code, out ResourceBase output)
     {
         foreach (var resource in loadedResources)
@@ -141,23 +146,28 @@ public class ResourceManager : MonoBehaviour
         return false;
     }
 
-    // TODO: Calculation functions should go in their own class
-    float CalculateHardness(float primary, float secondary)
+    public string CalculateName(string primary, string secondary)
     {
         return primary + secondary;
     }
 
-    float CalculateFlammability(float primary, float secondary)
+    // TODO: Calculation functions should go in their own class
+    public float CalculateHardness(float primary, float secondary)
+    {
+        return primary + secondary;
+    }
+
+    public float CalculateFlammability(float primary, float secondary)
     {
         return (primary + secondary) / 2.0f;
     }
 
-    float CalculateDurability(float primary, float secondary)
+    public float CalculateDurability(float primary, float secondary)
     {
         return primary + secondary + 1;
     }
 
-    float CalculateConductivity(float primary, float secondary)
+    public float CalculateConductivity(float primary, float secondary)
     {
         return (primary + secondary) / 2.0f;
     }

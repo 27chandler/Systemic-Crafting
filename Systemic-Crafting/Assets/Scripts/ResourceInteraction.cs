@@ -6,6 +6,7 @@ public class ResourceInteraction : MonoBehaviour
     [SerializeField] private Tilemap environment;
     [SerializeField] private ResourceManager resourceManager;
     [SerializeField] private Inventory inv;
+    [SerializeField] private CraftingCounter primarySlot;
 
     [SerializeField] private float miningSpeed;
     private float totalTimer = 1.0f;
@@ -62,6 +63,21 @@ public class ResourceInteraction : MonoBehaviour
                     environment.SetTile(resourcePosition, null);
                     minedResource = null;
                 }
+            }
+        }
+        else if (Input.GetMouseButton(1))
+        {
+            Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            resourcePosition = environment.WorldToCell(mouse_pos);
+
+            if ((environment.GetTile(resourcePosition) == null)
+                && (inv.FindQuantity(primarySlot.ResourceName) >= 1.0f))
+            {
+                TileBase placed_tile = resourceManager.SearchResources(primarySlot.ResourceName).Tile;
+
+                inv.AddQuantity(primarySlot.ResourceName, -1.0f);
+                environment.SetTile(resourcePosition, placed_tile);
+                resourcePosition = new Vector3Int();
             }
         }
     }
