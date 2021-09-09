@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class ResourceSearch : MonoBehaviour
+public static class ResourceSearch
 {
-    public static ResourceBase SearchResources(List<ResourceBase> resources, TileBase search_tile)
+    private static List<ResourceBase> loadedResources;
+
+    public static List<ResourceBase> LoadedResources { get => loadedResources; set => loadedResources = value; }
+
+    public static ResourceBase SearchResources(TileBase search_tile)
     {
-        foreach (var resource in resources)
+        foreach (var resource in loadedResources)
         {
             if (resource.Tile == search_tile)
             {
@@ -17,9 +21,9 @@ public class ResourceSearch : MonoBehaviour
         return null;
     }
 
-    public static ResourceBase SearchResources(List<ResourceBase> resources, string name)
+    public static ResourceBase SearchResources(string name)
     {
-        foreach (var resource in resources)
+        foreach (var resource in loadedResources)
         {
             if (resource.Name == name)
             {
@@ -29,9 +33,9 @@ public class ResourceSearch : MonoBehaviour
         return null;
     }
 
-    public static Sprite GrabResourceSprite(List<ResourceBase> resources, string name)
+    public static Sprite GrabResourceSprite(string name)
     {
-        foreach (var resource in resources)
+        foreach (var resource in loadedResources)
         {
             if (resource.Name == name)
             {
@@ -42,9 +46,9 @@ public class ResourceSearch : MonoBehaviour
         return null;
     }
 
-    public static bool CheckResourceExists(List<ResourceBase> resources, string name)
+    public static bool CheckResourceExists(string name)
     {
-        foreach (var resource in resources)
+        foreach (var resource in loadedResources)
         {
             if (resource.Name == name)
             {

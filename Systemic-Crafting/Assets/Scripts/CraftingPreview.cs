@@ -44,8 +44,8 @@ public class CraftingPreview : MonoBehaviour
 
     public void Refresh(string primary, string secondary)
     {
-        ResourceBase primary_resource = ResourceManager.current.SearchResources(primary);
-        ResourceBase secondary_resource = ResourceManager.current.SearchResources(secondary);
+        ResourceBase primary_resource = ResourceSearch.SearchResources(primary);
+        ResourceBase secondary_resource = ResourceSearch.SearchResources(secondary);
 
         if ((primary_resource == null) || (secondary_resource == null))
         {

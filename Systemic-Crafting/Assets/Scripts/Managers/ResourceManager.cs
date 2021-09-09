@@ -23,11 +23,12 @@ public class ResourceManager : MonoBehaviour
         current = this;
 
         loader = GetComponent<ResourceLoader>();
+        ResourceSearch.LoadedResources = loader.LoadedResources;
     }
 
     public ResourceBase GetResourceAtPos(Vector3Int position)
     {
-        return SearchResources(environment.GetTile(position));
+        return ResourceSearch.SearchResources(environment.GetTile(position));
     }
 
     public ResourceBase CreateNewResource(ResourceBase primary_resource, ResourceBase secondary_resource)
@@ -89,54 +90,6 @@ public class ResourceManager : MonoBehaviour
             }
         }
         output = null;
-        return false;
-    }
-    public ResourceBase SearchResources(TileBase search_tile)
-    {
-        foreach (var resource in loader.LoadedResources)
-        {
-            if (resource.Tile == search_tile)
-            {
-                return resource;
-            }
-        }
-        return null;
-    }
-
-    public ResourceBase SearchResources(string name)
-    {
-        foreach (var resource in loader.LoadedResources)
-        {
-            if (resource.Name == name)
-            {
-                return resource;
-            }
-        }
-        return null;
-    }
-
-    public Sprite GrabResourceSprite(string name)
-    {
-        foreach (var resource in loader.LoadedResources)
-        {
-            if (resource.Name == name)
-            {
-                Sprite primary_sprite = resource.Tile.sprite;
-                return primary_sprite;
-            }
-        }
-        return null;
-    }
-
-    public bool CheckResourceExists(string name)
-    {
-        foreach (var resource in loader.LoadedResources)
-        {
-            if (resource.Name == name)
-            {
-                return true;
-            }
-        }
         return false;
     }
 

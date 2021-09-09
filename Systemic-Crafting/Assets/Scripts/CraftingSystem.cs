@@ -18,8 +18,8 @@ public class CraftingSystem : MonoBehaviour
             return;
         }
 
-        ResourceBase primary_resource = resourceManager.SearchResources(craftingSlotA.ResourceName);
-        ResourceBase secondary_resource = resourceManager.SearchResources(craftingSlotB.ResourceName);
+        ResourceBase primary_resource = ResourceSearch.SearchResources(craftingSlotA.ResourceName);
+        ResourceBase secondary_resource = ResourceSearch.SearchResources(craftingSlotB.ResourceName);
 
         ResourceBase result_resource = resourceManager.CreateNewResource(primary_resource, secondary_resource);
 

@@ -38,7 +38,7 @@ public class ResourceInteraction : MonoBehaviour
         if ((environment.GetTile(resourcePosition) == null)
             && (inv.FindQuantity(primarySlot.ResourceName) >= 1.0f))
         {
-            TileBase placed_tile = resourceManager.SearchResources(primarySlot.ResourceName).Tile;
+            TileBase placed_tile = ResourceSearch.SearchResources(primarySlot.ResourceName).Tile;
 
             inv.AddQuantity(primarySlot.ResourceName, -1.0f);
             environment.SetTile(resourcePosition, placed_tile);
@@ -53,7 +53,7 @@ public class ResourceInteraction : MonoBehaviour
             Vector2 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             resourcePosition = environment.WorldToCell(mouse_pos);
 
-            minedResource = resourceManager.SearchResources(environment.GetTile(resourcePosition));
+            minedResource = ResourceSearch.SearchResources(environment.GetTile(resourcePosition));
 
             if (minedResource != null)
             {

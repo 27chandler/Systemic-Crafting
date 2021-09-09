@@ -22,7 +22,7 @@ public class CraftingCounter : MonoBehaviour
         set 
         { 
             resourceNameDisplay.text = resourceName = value;
-            sprite.sprite = ResourceManager.current.GrabResourceSprite(resourceName);
+            sprite.sprite = ResourceSearch.GrabResourceSprite(resourceName);
         } }
 
     public void IncreaseAmount(int value)
