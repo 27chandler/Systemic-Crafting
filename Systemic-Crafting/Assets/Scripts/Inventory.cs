@@ -25,7 +25,7 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (resources.Count < resourceManager.LoadedResources.Count)
+        if (resources.Count < resourceManager.Loader.LoadedResources.Count)
         {
             ReloadInventory();
         }
@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
 
         //resources.Clear();
 
-        foreach (var resource in resourceManager.LoadedResources)
+        foreach (var resource in resourceManager.Loader.LoadedResources)
         {
             if (!CheckSlotExists(resource.Name))
             {

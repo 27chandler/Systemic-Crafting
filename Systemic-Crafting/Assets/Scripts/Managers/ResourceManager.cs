@@ -8,75 +8,21 @@ public class ResourceManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
     [SerializeField] private Tilemap environment;
-    [SerializeField] private List<ResourceBase> loadedResources = new List<ResourceBase>();
-    [SerializeField] private ResourceBase primaryCrafting;
-    [SerializeField] private ResourceBase secondaryCrafting;
+
+    private ResourceLoader loader;
 
     public static ResourceManager current;
 
-    public List<ResourceBase> LoadedResources { get { return loadedResources; }}
+    public ResourceLoader Loader { get => loader; set => loader = value; }
+
+
 
     // Start is called before the first frame update
     void Start()
     {
         current = this;
 
-        ResourceBase[] resources = Resources.LoadAll<ResourceBase>("BasicResources");
-        loadedResources.AddRange(resources);
-
-        foreach (var resource in loadedResources)
-        {
-            resource.SetIntialIngredient(resource.Name);
-        }
-    }
-
-    public ResourceBase SearchResources(TileBase search_tile)
-    {
-        foreach (var resource in loadedResources)
-        {
-            if (resource.Tile == search_tile)
-            {
-                return resource;
-            }
-        }
-        return null;
-    }
-
-    public ResourceBase SearchResources(string name)
-    {
-        foreach (var resource in loadedResources)
-        {
-            if (resource.Name == name)
-            {
-                return resource;
-            }
-        }
-        return null;
-    }
-
-    public Sprite GrabResourceSprite(string name)
-    {
-        foreach (var resource in loadedResources)
-        {
-            if (resource.Name == name)
-            {
-                Sprite primary_sprite = resource.Tile.sprite;
-                return primary_sprite;
-            }
-        }
-        return null;
-    }
-
-    public bool CheckResourceExists(string name)
-    {
-        foreach (var resource in loadedResources)
-        {
-            if (resource.Name == name)
-            {
-                return true;
-            }
-        }
-        return false;
+        loader = GetComponent<ResourceLoader>();
     }
 
     public ResourceBase GetResourceAtPos(Vector3Int position)
@@ -122,7 +68,7 @@ public class ResourceManager : MonoBehaviour
             Debug.Log("New Check Code: " + resource.CheckCode);
         }
 
-        loadedResources.Add(resource);
+        loader.LoadedResources.Add(resource);
 
         return resource;
     }
@@ -134,7 +80,7 @@ public class ResourceManager : MonoBehaviour
 
     private bool CheckExists(float check_code, out ResourceBase output)
     {
-        foreach (var resource in loadedResources)
+        foreach (var resource in loader.LoadedResources)
         {
             if (check_code == resource.CheckCode)
             {
@@ -143,6 +89,54 @@ public class ResourceManager : MonoBehaviour
             }
         }
         output = null;
+        return false;
+    }
+    public ResourceBase SearchResources(TileBase search_tile)
+    {
+        foreach (var resource in loader.LoadedResources)
+        {
+            if (resource.Tile == search_tile)
+            {
+                return resource;
+            }
+        }
+        return null;
+    }
+
+    public ResourceBase SearchResources(string name)
+    {
+        foreach (var resource in loader.LoadedResources)
+        {
+            if (resource.Name == name)
+            {
+                return resource;
+            }
+        }
+        return null;
+    }
+
+    public Sprite GrabResourceSprite(string name)
+    {
+        foreach (var resource in loader.LoadedResources)
+        {
+            if (resource.Name == name)
+            {
+                Sprite primary_sprite = resource.Tile.sprite;
+                return primary_sprite;
+            }
+        }
+        return null;
+    }
+
+    public bool CheckResourceExists(string name)
+    {
+        foreach (var resource in loader.LoadedResources)
+        {
+            if (resource.Name == name)
+            {
+                return true;
+            }
+        }
         return false;
     }
 
