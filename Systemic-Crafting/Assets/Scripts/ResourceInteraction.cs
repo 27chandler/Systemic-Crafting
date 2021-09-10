@@ -15,11 +15,13 @@ public class ResourceInteraction : MonoBehaviour
     private ResourceBase minedResource = null;
     private Vector3Int resourcePosition;
 
-    public float TotalTimer { get { return totalTimer; } }
-    public float Timer { get { return timer; } }
+    public float TotalTimer { get { return totalTimer; }}
+    public float Timer { get { return timer; }}
 
     void Update()
     {
+        CheckMove();
+
         if (Input.GetMouseButton(0))
         {
             MineResource();
@@ -27,6 +29,20 @@ public class ResourceInteraction : MonoBehaviour
         else if (Input.GetMouseButton(1))
         {
             PlaceResource();
+        }
+    }
+
+    private void CheckMove()
+    {
+        Vector3 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int rounded_mouse_pos = new Vector3Int();
+        rounded_mouse_pos.x = Mathf.FloorToInt(mouse_pos.x);
+        rounded_mouse_pos.y = Mathf.FloorToInt(mouse_pos.y);
+        rounded_mouse_pos.z = 0;
+        if (rounded_mouse_pos != resourcePosition)
+        {
+            minedResource = null;
+            timer = totalTimer;
         }
     }
 
@@ -64,16 +80,6 @@ public class ResourceInteraction : MonoBehaviour
         else
         {
             timer -= Time.deltaTime;
-
-            Vector3 mouse_pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int rounded_mouse_pos = new Vector3Int();
-            rounded_mouse_pos.x = Mathf.FloorToInt(mouse_pos.x);
-            rounded_mouse_pos.y = Mathf.FloorToInt(mouse_pos.y);
-            rounded_mouse_pos.z = 0;
-            if (rounded_mouse_pos != resourcePosition)
-            {
-                minedResource = null;
-            }
 
             if (timer <= 0.0f)
             {

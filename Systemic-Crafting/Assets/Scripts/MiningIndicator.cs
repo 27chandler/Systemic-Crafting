@@ -56,11 +56,6 @@ public class MiningIndicator : MonoBehaviour
         ScaleIndicator();
     }
 
-    private void ResetIndicator()
-    {
-        resourceInteractor.Timer = resourceInteractor.TotalTimer;
-    }
-
     private void ScaleIndicator()
     {
         float scale = Mathf.Clamp(resourceInteractor.Timer / resourceInteractor.TotalTimer,0.0f,1.0f);
