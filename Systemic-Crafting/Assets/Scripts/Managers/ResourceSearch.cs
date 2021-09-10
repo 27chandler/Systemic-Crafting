@@ -57,4 +57,9 @@ public static class ResourceSearch
         }
         return false;
     }
+
+    public static ResourceBase GetResourceAtPos(Tilemap tilemap, Vector3Int position)
+    {
+        return ResourceSearch.SearchResources(tilemap.GetTile(position));
+    }
 }

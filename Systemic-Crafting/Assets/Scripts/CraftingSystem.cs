@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CraftingSystem : MonoBehaviour
 {
-    [SerializeField] private ResourceManager resourceManager;
     [SerializeField] private Inventory inventory;
 
     [SerializeField] private CraftingCounter craftingSlotA;
@@ -21,7 +20,7 @@ public class CraftingSystem : MonoBehaviour
         ResourceBase primary_resource = ResourceSearch.SearchResources(craftingSlotA.ResourceName);
         ResourceBase secondary_resource = ResourceSearch.SearchResources(craftingSlotB.ResourceName);
 
-        ResourceBase result_resource = resourceManager.CreateNewResource(primary_resource, secondary_resource);
+        ResourceBase result_resource = ResourceCreator.CreateNewResource(primary_resource, secondary_resource);
 
         inventory.AddQuantity(craftingSlotA.ResourceName, -1.0f,true);
         inventory.AddQuantity(craftingSlotB.ResourceName, -1.0f,true);

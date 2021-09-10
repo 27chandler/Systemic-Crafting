@@ -35,6 +35,11 @@ public class TextureMerge : MonoBehaviour
         targetTile.sprite = originalSprite;
     }
 
+    static public Sprite MergeSprites(Sprite primary, Sprite secondary)
+    {
+        return Sprite.Create(TextureMerge.MergeTextures(primary.texture, primary.rect, secondary.texture, secondary.rect, 0.5f), new Rect(0, 0, 32, 32), new Vector2(0.5f, 0.5f), 32.0f);
+    }
+
     // Credit to http://girlscancode.eu/unity3d-merge-textures-tutorial/ for this...
     // (Slightly modified by me to support textures within a spritesheet)
     static public Texture2D MergeTextures(Texture2D texture_1, Rect rect_1, Texture2D texture_2, Rect rect_2, float alpha = 1.0f)

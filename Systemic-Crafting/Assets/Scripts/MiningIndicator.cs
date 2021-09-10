@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class MiningIndicator : MonoBehaviour
 {
-    [SerializeField] private ResourceManager resourceManager;
+    [SerializeField] private Tilemap interactionTilemap;
     [SerializeField] private ResourceInteraction resourceInteractor;
 
     [SerializeField] private Image image;
@@ -17,11 +18,7 @@ public class MiningIndicator : MonoBehaviour
     [SerializeField] private Color highColour;
     [SerializeField] private ResourceBase hoverResource;
     [SerializeField] private Vector3Int roundedPos;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -38,7 +35,7 @@ public class MiningIndicator : MonoBehaviour
         roundedPos.z = 0;
 
 
-        hoverResource = resourceManager.GetResourceAtPos(roundedPos);
+        hoverResource = ResourceSearch.GetResourceAtPos(interactionTilemap, roundedPos);
 
         if (hoverResource != null)
         {
@@ -57,6 +54,11 @@ public class MiningIndicator : MonoBehaviour
         }
 
         ScaleIndicator();
+    }
+
+    private void ResetIndicator()
+    {
+        resourceInteractor.Timer = resourceInteractor.TotalTimer;
     }
 
     private void ScaleIndicator()

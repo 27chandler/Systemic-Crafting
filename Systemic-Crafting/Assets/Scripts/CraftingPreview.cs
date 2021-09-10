@@ -53,12 +53,12 @@ public class CraftingPreview : MonoBehaviour
             return;
         }
 
-        sprite.sprite = ResourceManager.current.MergeSprites(primary_resource.Tile.sprite, secondary_resource.Tile.sprite);
+        sprite.sprite = TextureMerge.MergeSprites(primary_resource.Tile.sprite, secondary_resource.Tile.sprite);
 
-        nameText.text = ResourceManager.current.CalculateName(primary_resource.Name, secondary_resource.Name);
-        durabilityText.text = ResourceManager.current.CalculateDurability(primary_resource.Durability,secondary_resource.Durability).ToString();
-        hardnessText.text = ResourceManager.current.CalculateHardness(primary_resource.Hardness,secondary_resource.Hardness).ToString();
-        flammabilityText.text = ResourceManager.current.CalculateFlammability(primary_resource.Flammability,secondary_resource.Flammability).ToString();
-        conductivityText.text = ResourceManager.current.CalculateConductivity(primary_resource.Conductivity,secondary_resource.Conductivity).ToString();
+        nameText.text = ResourceCreator.CalculateName(primary_resource.Name, secondary_resource.Name);
+        durabilityText.text = ResourceCreator.CalculateDurability(primary_resource.Durability,secondary_resource.Durability).ToString();
+        hardnessText.text = ResourceCreator.CalculateHardness(primary_resource.Hardness,secondary_resource.Hardness).ToString();
+        flammabilityText.text = ResourceCreator.CalculateFlammability(primary_resource.Flammability,secondary_resource.Flammability).ToString();
+        conductivityText.text = ResourceCreator.CalculateConductivity(primary_resource.Conductivity,secondary_resource.Conductivity).ToString();
     }
 }
